@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+        h1 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        h2 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 5px;
+            text-align: center;
+        }
+        thead {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Livingstone Lodge</h1>
+    <h2>Satisfaction Analysis for {{ month }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>😀 Happy</th>
+                <th>😐 Neutral</th>
+                <th>😞 Sad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question, ratings in analysis.items %}
+            <tr>
+                <td>{{ question }}</td>
+                <td>{{ ratings.happy|floatformat:0 }}%</td>
+                <td>{{ ratings.neutral|floatformat:0 }}%</td>
+                <td>{{ ratings.sad|floatformat:0 }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

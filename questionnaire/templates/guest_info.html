@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Information</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'guest_info.css' %}">
+</head>
+<body>
+    <div class="container">
+        {% if user.is_authenticated %}
+            <h2>Guest Information</h2>
+            <p>Welcome, {{ user.username }}!</p>
+    
+            <!-- Loop through grouped months -->
+            {% for month_data in guests_by_month %}
+                <h3>
+                    {{ month_data.month|date:"F Y" }} ({{ month_data.count }} Guests)
+        
+                    <!-- Analysis Link -->
+                    <a href="{% url 'satisfaction_analysis' %}?month={{ month_data.month|date:'m' }}&year={{ month_data.month|date:'Y' }}" 
+                        style="font-size: 0.9em; margin-left: 10px; background: #28a745; color: white; padding: 4px 10px; border-radius: 4px; text-decoration: none;">
+                        📊 View Analysis
+                    </a>
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Room</th>
+                            <th>Length of Stay</th>
+                            <th>Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for guest in guests %}
+                            {% if guest.date_submitted|date:"F Y" == month_data.month|date:"F Y" %}
+                                <tr>
+                                    <td><a href="{% url 'guest_detail' guest.pk %}">{{ guest.name }}</a></td>
+                                    <td>{{ guest.gender }}</td>
+                                    <td>{{ guest.room_number }}</td>
+                                    <td>{{ guest.length_of_stay }}</td>
+                                    <td>{{ guest.date_submitted }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+            
+            <a href="{% url 'custom_logout' %}" class="logout-btn">Logout</a>
+
+        {% else %}
+            <p>Access Denied. Please <a href="{% url 'login' %}">Login</a> to continue.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

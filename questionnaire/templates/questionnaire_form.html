@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Questionnaire</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'questionnaire.css' %}">
+</head>
+    
+<body>
+    <div class="cover">
+    <h2 class="h2">Livingstone Lodge</h2>
+    <h2>Guest Questionnaire</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <h3>Guest Information</h3>
+        {{ guest_form.as_p }}
+
+        <h3>Satisfaction Ratings</h3>
+        {% for question in satisfaction_questions %}
+            <p><strong>{{ question.text }}</strong></p>
+            <div class="satisfaction-rating">
+                <input type="radio" id="happy_{{ question.id }}" name="rating_{{ question.id }}" value="happy">
+                <label for="happy_{{ question.id }}" class="rating-label">😊</label>
+            
+                <input type="radio" id="neutral_{{ question.id }}" name="rating_{{ question.id }}" value="neutral">
+                <label for="neutral_{{ question.id }}" class="rating-label">😐</label>
+            
+                <input type="radio" id="sad_{{ question.id }}" name="rating_{{ question.id }}" value="sad">
+                <label for="sad_{{ question.id }}" class="rating-label">😞</label>
+            </div>
+            
+            
+        {% empty %}
+            <p>No satisfaction questions available.</p>
+        {% endfor %}
+
+
+
+        <h3>Purpose of Stay</h3>
+        {{ stay_purpose_form.as_p }}
+
+        <h3>Additional Comments</h3>
+        {{ comment_form.as_p }}
+
+        <button type="submit">Submit</button>
+    </form>
+    {% if not user.is_authenticated %}
+        <a href="{% url 'custom_login' %}" class="login-btn">Login</a>
+    {% else %}
+        <a href="{% url 'guest_info' %}" class="view-guests-btn">View Guests</a>
+    {% endif %}
+
+    
+
+    </div>
+</body>
+<script>
+// JavaScript to add selected class
+document.querySelectorAll('.rating-icons label').forEach(label => {
+    label.addEventListener('click', function () {
+        // Remove selected class from all labels
+        document.querySelectorAll('.rating-icons label').forEach(lbl => lbl.classList.remove('selected'));
+
+        // Add selected class to clicked label
+        this.classList.add('selected');
+    });
+});
+
+</script>
+</html>

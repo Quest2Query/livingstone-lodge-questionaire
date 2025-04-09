@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guest Detail - {{ guest.name }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 30px;
+            background: #f4f6f8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .rating {
+            font-size: 1.2em;
+        }
+
+        .emoji-happy { color: green; }
+        .emoji-neutral { color: orange; }
+        .emoji-sad { color: red; }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        a.button {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        a.button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Guest: {{ guest.name }}</h2>
+        <p><strong>Gender:</strong> {{ guest.gender }}</p>
+        <p><strong>Room:</strong> {{ guest.room_number }}</p>
+        <p><strong>Length of Stay:</strong> {{ guest.length_of_stay }}</p>
+        <p><strong>Date Submitted:</strong> {{ guest.date_submitted }}</p>
+    
+        <div class="section">
+            <h3>Satisfaction Ratings</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for response in satisfaction %}
+                    <tr>
+                        <td>{{ response.question.text }}</td>
+                        <td class="rating">
+                            {% if response.rating == 'happy' %}
+                                <span class="emoji-happy">😊 Happy</span>
+                            {% elif response.rating == 'neutral' %}
+                                <span class="emoji-neutral">😐 Neutral</span>
+                            {% elif response.rating == 'sad' %}
+                                <span class="emoji-sad">😞 Sad</span>
+                            {% else %}
+                                {{ response.rating }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="2">No ratings submitted.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+        <div class="section">
+            <h3>Stay Purposes</h3>
+            <ul>
+                {% for purpose in purposes %}
+                <li>{{ purpose.get_purpose_display }}</li>
+                {% empty %}
+                <li>No purposes recorded.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <div class="section">
+            <h3>Additional Comments</h3>
+            <ul>
+                {% for comment in comments %}
+                <li>{{ comment.comment }}</li>
+                {% empty %}
+                <li>No comments available.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <a href="{% url 'guest_info' %}" class="button">← Back to Guest List</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Header */
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Welcome Message */
+p {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background: #007bff;
+    color: white;
+}
+
+thead th {
+    padding: 12px;
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody td {
+    padding: 12px;
+}
+
+/* Logout Button */
+.logout-btn {
+    display: block;
+    text-align: center;
+    background: red;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 20px auto;
+    width: fit-content;
+    transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: darkred;
+}

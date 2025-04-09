@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Satisfaction Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h2 {
+            color: #007bff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        thead {
+            background-color: #007bff;
+            color: white;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+        }
+        .filter-form select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .btn {
+            padding: 7px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Satisfaction Analysis for {{ month }}</h2>
+
+<form method="get" class="filter-form">
+    <label for="month">Month:</label>
+    <select name="month" id="month">
+        {% for m in month_options %}
+            <option value="{{ m }}" {% if m == current_month %}selected{% endif %}>{{ m }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="year">Year:</label>
+    <select name="year" id="year">
+        {% for y in year_options %}
+            <option value="{{ y }}" {% if y == current_year %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn">Filter</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>😀 Happy</th>
+            <th>😐 Neutral</th>
+            <th>😞 Sad</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for question, ratings in analysis.items %}
+        <tr>
+            <td>{{ question }}</td>
+            <td>{{ ratings.happy|floatformat:0 }}%</td>
+            <td>{{ ratings.neutral|floatformat:0 }}%</td>
+            <td>{{ ratings.sad|floatformat:0 }}%</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No responses available for this month.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<a href="{% url 'guest_info' %}" class="btn">← Back to Guest Info</a>
+<a href="{% url 'download_pdf' %}?month={{ current_month }}&year={{ current_year }}" class="btn">📄 Download PDF</a>
+<a href="{% url 'download_excel' %}?month={{ current_month }}&year={{ current_year }}" class="btn">📊 Download Excel</a>
+
+
+<br>
+
+</body>
+</html>
